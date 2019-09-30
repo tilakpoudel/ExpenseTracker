@@ -20,6 +20,8 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.16.0
+  flutter_selectable_text: ^0.3.1
+
 
 
   # The following adds the Cupertino Icons font to your application.
