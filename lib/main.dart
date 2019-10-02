@@ -1,6 +1,8 @@
-import 'package:expenser_planner/widgets/new_transaction.dart';
-import 'package:expenser_planner/widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
+
+import './widgets/charts.dart';
+import './widgets/new_transaction.dart';
+import './widgets/transaction_list.dart';
 
 import './models/transaction.dart';
 
@@ -12,8 +14,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // title: 'Expense Planner1',
+      title: 'Expense Planner1',
       home: MyHomePage(),
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        accentColor: Colors.amber,
+        fontFamily: 'Quicksand',
+      ),
     );
   }
 }
@@ -25,19 +32,28 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransaction = [
-    Transaction(
-      id: 't1',
-      title: 'Sports Shoes',
-      amount: 1800,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Shirt',
-      amount: 800,
-      date: DateTime.now(),
-    ),
+    // Transaction(
+    //   id: 't1',
+    //   title: 'Sports Shoes',
+    //   amount: 1800,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'Shirt',
+    //   amount: 800,
+    //   date: DateTime.now(),
+    // ),
   ];
+  List <Transaction> get _recentTransactions{
+    return _userTransaction.where((tx){
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
 
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(
@@ -85,13 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Text('chart'),
-              ),
-            ),
+            Chart(_recentTransactions),
             TransactionList(_userTransaction)
           ],
         ),
