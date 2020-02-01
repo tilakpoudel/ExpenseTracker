@@ -1,6 +1,7 @@
 # expenser_planner
 
 A new Flutter project.
+App that tracks the expense of a person.
 
 ## Getting Started
 
